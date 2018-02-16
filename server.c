@@ -8,6 +8,7 @@
 #include <string.h>
 #include <netinet/in.h>
 #include <sys/types.h>
+#include <unistd.h>
 
 #define PORT 4444
 #define queueLimit 1
@@ -20,7 +21,8 @@ void error(char *msg){
 }
 
 int main(int argc, char *argv[]){
-	
+	char buffer [1024] = {0};
+
 	int server_fd;
 	sock_addr server_addr;
 	server_addr.sin_family = AF_INET;
@@ -44,11 +46,11 @@ int main(int argc, char *argv[]){
 	if(listening == -1){
 		error("did not listen");	
 	}
-	int client_new;
+	int client_new = -1;
 	for(;;){
 		
 		while(client_new == -1) {
-			client_new = accept(sock, (struct sock_addr*)&client_addr, (socklen_t*)&client_addr_len);
+			client_new = accept(sock, (struct sockaddr *)&client_addr, (socklen_t*)&client_addr_len);
 			/*if(client_new == -1 ){
 				can have a print statement for waiting to accept
 			}*/
@@ -61,6 +63,9 @@ int main(int argc, char *argv[]){
 		break;
 	
 	}
+
+	int whattheysend = read(client_new,buffer,1024);
+	printf("%s\n",buffer);
 	
 	int closing = close(sock);
 	if (closing == -1){

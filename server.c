@@ -23,7 +23,6 @@ void error(char *msg){
 int main(int argc, char *argv[]){
 	char buffer [1024] = {0};
 
-	int server_fd;
 	sock_addr server_addr;
 	server_addr.sin_family = AF_INET;
 	server_addr.sin_addr.s_addr = INADDR_ANY; 

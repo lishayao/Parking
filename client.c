@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <sys/socket.h>
+#include <arpa/inet.h>
 #include <stdlib.h>
 #include <netinet/in.h>
 #include <string.h>
@@ -21,7 +22,7 @@ int main(int argc, char *argv[]){
 	struct sockaddr_in client_addr;
 	struct sockaddr_in server_addr;
 	char buffer[1024] = {0};
-	char *test = "hello im from the client";
+	char *test = "hello im from the client1 on mac";
 
 
 	int sock = socket(AF_INET,SOCK_STREAM, 0);
@@ -35,7 +36,7 @@ int main(int argc, char *argv[]){
 
 	// need to add memset and convert IP addresses to binary
 	
-	if(inet_pton(AF_INET, "192.168.0.107", server_addr.sin_addr) == -1) {
+	if(inet_pton(AF_INET, "169.233.211.140", &server_addr.sin_addr) == -1) {
 		printf("invalid addresses\n");
 	}
 	//connect

@@ -45,30 +45,38 @@ int main(int argc, char *argv[]){
 	if(listening == -1){
 		error("did not listen");	
 	}
-	int client_new = -1;
+	int count = 0;
 	for(;;){
-		
+		int client_new = -1;
+
 		while(client_new == -1) {
 			client_new = accept(sock, (struct sockaddr *)&client_addr, (socklen_t*)&client_addr_len);
-			/*if(client_new == -1 ){
-				can have a print statement for waiting to accept
-			}*/
+			if(client_new == -1 ){
+				printf("waiting...\n");
+			}
 	
-		}	
-		//after accept and started connection
+		}
 		
 		
-		printf("accepted client\n");
-		break;
+		printf("accepted new client\n");
+		
 	
-	}
+	
 
-	int whattheysend = read(client_new,buffer,1024);
-	printf("%s\n",buffer);
+		int whattheysend = read(client_new,buffer,1024);
+		printf("%s\n",buffer);
+		int close_client = close(client_new);
+		if (close_client == -1){
+			printf("closing client error\n");
+		}
 	
+		count += 1;
+		if(count == 10){
+			break;
+		}
+	}
 	int closing = close(sock);
 	if (closing == -1){
 		error("cannot close socket");	
 	}
-	
 }
